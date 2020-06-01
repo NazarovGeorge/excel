@@ -51,8 +51,10 @@ module.exports = {
   resolve: {
     alias: {
       '@src': `${PATHS.APP_SRC}/`,
+      '@core': `${PATHS.APP_SRC}/actions/`,
+      '@components': `${PATHS.APP_SRC}/components/`,
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.module.scss'],
   },
   module: {
     rules: [
@@ -62,19 +64,15 @@ module.exports = {
         use: ['ts-loader'],
       },
       {
-        test: /\.module\.s(a|c)ss$/,
-        loader: [
+        test: /\.(scss|sass)$/,
+        exclude: /\.module\.(scss|sass)$/,
+        use: [
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
               importLoaders: 3,
-              modules: {
-                localIdentName: isDevelopment
-                  ? '[path][name]__[local]'
-                  : '[hash:base64]',
-              },
-              sourceMap: isProduction,
+              sourceMap: true,
             },
           },
           {
@@ -91,7 +89,54 @@ module.exports = {
                 }),
                 postcssNormalize(),
               ],
-              sourceMap: isProduction,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.module\.(scss|sass)$/,
+        loader: [
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 3,
+              modules: {
+                localIdentName: isDevelopment
+                  ? '[path][name]__[local]'
+                  : '[hash:base64]',
+              },
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('postcss-preset-env')({
+                  autoprefixer: {
+                    flexbox: 'no-2009',
+                  },
+                  stage: 3,
+                }),
+                postcssNormalize(),
+              ],
+              sourceMap: true,
             },
           },
           {

@@ -34,17 +34,7 @@
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "@typescript-eslint/explicit-function-return-type": "off",
-    "padding-line-between-statements": [
-      "error",
-      { "blankLine": "always", "prev": ["*"], "next": "function" },
-      { "blankLine": "always", "prev": ["function"], "next": "*" },
-      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
-      {
-        "blankLine": "any",
-        "prev": ["const", "let", "var"],
-        "next": ["const", "let", "var"]
-      }
-    ]
+    "lines-between-class-members": 0
   },
   "overrides": [
     {

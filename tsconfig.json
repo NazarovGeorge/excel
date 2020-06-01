@@ -19,7 +19,9 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@src/*": ["./*"]
+      "@src/*": ["./*"],
+      "@core/*": ["./core/*"],
+      "@components/*": ["./components/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/types/**/*"]
   },
